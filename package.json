@@ -1,17 +1,19 @@
 {
+  "type": "module",
   "name": "animebot",
   "version": "1.0.0",
   "description": "Bot de telegram que te dice cuando sale el proximo capitulo de tu anime favorito!",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "author": "ccoelh0",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.27.2",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "node-fetch": "^3.2.10",
     "node-telegram-bot-api": "^0.59.0",
     "nodemon": "^2.0.19"
   }

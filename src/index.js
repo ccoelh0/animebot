@@ -10,9 +10,12 @@ const bot = new TelegramBot(token, { polling: true });
 bot.on("message", async (msg) => {
   if (msg.text[0] === '"' || msg.text[msg.text.length - 1] === '"') {
     const data = msg.text
-    const message = await getData(data)
-    bot.sendMessage(msg.chat.id, message);
-    return bot.sendMessage(msg.chat.id, '🙌🏻 Espero haberte ayudado! Si quieres saber sobre otro anime, ingresa su nombre entre comillas 🔎')
+    const messageObj = await getData(data)
+    bot.sendPhoto(msg.chat.id, messageObj.image)
+    bot.sendMessage(msg.chat.id, messageObj.text);
+    return setTimeout(() => {
+      return bot.sendMessage(msg.chat.id, '🙌🏻 Espero haberte ayudado! Si quieres saber sobre otro anime, ingresa su nombre entre comillas 🔎')
+    }, 3000)
   }
 
   const greeting =

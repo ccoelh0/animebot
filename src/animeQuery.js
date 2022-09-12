@@ -15,6 +15,7 @@ const query = `
       episodes
       status
       season
+      bannerImage
       nextAiringEpisode { timeUntilAiring episode } 
     }
   }
@@ -34,7 +35,7 @@ const getData = async (animeName) => {
   })
 
   const response = await data.json()
-  return formatMessage(response)
+  return {text: formatMessage(response), image: response.data.Media.bannerImage}
 }
 
 const formatMessage = (msg) => {

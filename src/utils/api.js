@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import formatSeconds from './utils/formatSeconds.js';
 
 const url = 'https://graphql.anilist.co'
 
@@ -21,8 +20,8 @@ const query = `
   }
 `;
 
-const getData = async (animeName) => {
-  const data = await fetch (url, {
+export const getDataByAnimeName = async (animeName) => {
+  const data = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,15 +33,5 @@ const getData = async (animeName) => {
     })
   })
 
-  const response = await data.json()
-  return {text: formatMessage(response), image: response.data.Media.bannerImage}
+  return await data.json()
 }
-
-const formatMessage = (msg) => {
-  const data = msg.data.Media
-  const textToBot = 
-    `El episodio ${data.nextAiringEpisode.episode} de ${data.title.english} (${data.title.native}) sera emitido en ${formatSeconds(data.nextAiringEpisode.timeUntilAiring)} ✅`
-  return textToBot
-}
-
-export default getData

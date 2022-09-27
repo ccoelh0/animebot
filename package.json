@@ -5,8 +5,8 @@
   "description": "Bot de telegram que te dice cuando sale el proximo capitulo de tu anime favorito!",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "author": "ccoelh0",
   "license": "ISC",

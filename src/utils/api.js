@@ -15,7 +15,8 @@ const query = `
       status
       season
       bannerImage
-      nextAiringEpisode { timeUntilAiring episode } 
+      coverImage { extraLarge }
+      nextAiringEpisode { timeUntilAiring episode }
     }
   }
 `;

@@ -1,4 +1,4 @@
-const formatDate = (seconds) => {
+const formatDate = (seconds: number) => {
   seconds = Number(seconds);
   const d = Math.floor(seconds / (3600*24));
   const h = Math.floor(seconds % (3600*24) / 3600);

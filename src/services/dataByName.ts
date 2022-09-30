@@ -21,7 +21,7 @@ const query = `
   }
 `;
 
-export const getDataByAnimeName = async (animeName) => {
+export const getDataByAnimeName = async (animeName: string) => {
   const data = await fetch(url, {
     method: 'POST',
     headers: {

@@ -1,6 +1,6 @@
 import formatDate from './formatDate.js'
 
-export const nextAiringEpisode = (x) => {
+export const nextAiringEpisode = (x: any) => {
   const {nextAiringEpisode, title, status, coverImage, bannerImage} = x.data.Media
   let text, img
   

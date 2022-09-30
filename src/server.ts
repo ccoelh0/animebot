@@ -1,11 +1,11 @@
 import 'dotenv/config'
 import express from 'express'
 import TelegramBot from 'node-telegram-bot-api';
-import handleResponse from './utils/responses.js'
+import handleResponse from './utils/responses'
 
 const app = express()
 const token = process.env.TELEGRAM_TOKEN;
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token !== undefined ? token : '', { polling: true });
 
 bot.on("message", async (msg) => handleResponse(bot, msg));
 

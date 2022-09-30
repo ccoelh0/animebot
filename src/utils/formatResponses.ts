@@ -1,7 +1,7 @@
-import formatDate from './formatDate.js'
+import formatDate from './formatDate'
 
 export const nextAiringEpisode = (x: any) => {
-  const {nextAiringEpisode, title, status, coverImage, bannerImage} = x.data.Media
+  const {nextAiringEpisode, title, status, coverImage, bannerImage} = x
   let text, img
   
   if ((status === 'RELEASING' || status === 'NOT_YET_RELEASED') && nextAiringEpisode !== null) {

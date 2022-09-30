@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+import axios from "axios";
 
 const url = 'https://graphql.anilist.co'
 
@@ -22,17 +22,5 @@ const query = `
 `;
 
 export const getDataByAnimeName = async (animeName: string) => {
-  const data = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({
-      query: query,
-      variables: { search: animeName }
-    })
-  })
-
-  return await data.json()
+  return axios.post(url, { query: query, variables: { search: animeName } })
 }

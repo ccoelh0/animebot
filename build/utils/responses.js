@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dataByName_js_1 = require("../services/dataByName.js");
-const formatResponses_js_1 = require("./formatResponses.js");
+const dataByName_1 = require("../services/dataByName");
+const formatResponses_1 = require("./formatResponses");
 const options = {
     info: "Informacion general sobre un anime",
     airing: "Fecha de estreno del proximo capitulo de un anime"
@@ -46,10 +46,10 @@ const handleOptions = (optionSelect, bot, msg) => __awaiter(void 0, void 0, void
 });
 const airing = (bot, msg) => __awaiter(void 0, void 0, void 0, function* () {
     const data = msg.text;
-    const res = yield (0, dataByName_js_1.getDataByAnimeName)(data);
+    const res = yield (0, dataByName_1.getDataByAnimeName)(data);
     if (res.data.Media === null)
         return bot.sendMessage(msg.chat.id, 'No encontre el anime, proba con otro 🧐 ');
-    const { text, img } = (0, formatResponses_js_1.nextAiringEpisode)(res);
+    const { text, img } = (0, formatResponses_1.nextAiringEpisode)(res);
     if (img !== undefined)
         bot.sendPhoto(msg.chat.id, img);
     bot.sendMessage(msg.chat.id, text)

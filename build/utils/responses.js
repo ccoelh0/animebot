@@ -11,50 +11,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const dataByName_1 = require("../services/dataByName");
 const formatResponses_1 = require("./formatResponses");
-const options = {
-    info: "Informacion general sobre un anime",
-    airing: "Fecha de estreno del proximo capitulo de un anime"
-};
-let option = false;
-const handleResponse = (bot, msg) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!option) {
+const bot_model_1 = require("../models/bot.model");
+let option = bot_model_1.Options.initialState;
+const greeting = (message) => bot_model_1.bot.sendMessage(message.chat.id, "Hola, soy AnimeBot 🔎\nElegí una de estas 2 opciones:", { reply_markup: { keyboard: bot_model_1.options } });
+const whatAnime = (message) => bot_model_1.bot.sendMessage(message.chat.id, 'Decime el nombre de anime pls', bot_model_1.replyRemoveKeyboard);
+const notFoundAnime = (message) => bot_model_1.bot.sendMessage(message.chat.id, 'No encontre el anime, proba con otro 🧐 ');
+const finalResponse = (message) => bot_model_1.bot.sendMessage(message.chat.id, '🙌🏻 Espero haberte ayudado!');
+const handleResponse = (msg) => __awaiter(void 0, void 0, void 0, function* () {
+    if (option === bot_model_1.Options.initialState) {
         switch (msg.text) {
-            case options.airing:
-                bot.sendMessage(msg.chat.id, 'Decime el nombre de anime pls', { reply_markup: JSON.stringify({ hide_keyboard: true }) });
-                option = options.airing;
+            case bot_model_1.Options.airing:
+                whatAnime(msg);
+                option = bot_model_1.Options.airing;
                 break;
-            case options.info:
-                bot.sendMessage(msg.chat.id, 'Decime el nombre de anime pls', { reply_markup: JSON.stringify({ hide_keyboard: true }) });
-                option = options.info;
+            case bot_model_1.Options.info:
+                whatAnime(msg);
+                option = bot_model_1.Options.info;
                 break;
             default:
-                bot.sendMessage(msg.chat.id, "Hola, soy AnimeBot🔎. Elige una de estas 2 opciones", { "reply_markup": { "keyboard": [[options.info], [options.airing]] } });
+                greeting(msg);
+                break;
         }
     }
     else {
-        return handleOptions(option, bot, msg);
+        return handleOptions(option, msg);
     }
 });
-const handleOptions = (optionSelect, bot, msg) => __awaiter(void 0, void 0, void 0, function* () {
+const handleOptions = (optionSelect, msg) => __awaiter(void 0, void 0, void 0, function* () {
     switch (optionSelect) {
-        case options.airing:
-            airing(bot, msg);
+        case bot_model_1.Options.airing:
+            airing(msg);
             break;
         default:
-            bot.sendMessage(msg.chat.id, "Hola, soy AnimeBot🔎. Elige una de estas 2 opciones", { "reply_markup": { "keyboard": [[options.info], [options.airing]] } });
+            greeting(msg);
+            break;
     }
 });
-const airing = (bot, msg) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = msg.text;
-    const res = yield (0, dataByName_1.getDataByAnimeName)(data);
-    if (res.data.Media === null)
-        return bot.sendMessage(msg.chat.id, 'No encontre el anime, proba con otro 🧐 ');
-    const { text, img } = (0, formatResponses_1.nextAiringEpisode)(res);
-    if (img !== undefined)
-        bot.sendPhoto(msg.chat.id, img);
-    bot.sendMessage(msg.chat.id, text)
-        .then(() => bot.sendMessage(msg.chat.id, '🙌🏻 Espero haberte ayudado!'))
-        .catch(() => bot.sendMessage(msg.chat.id, 'Ocurrio un erro 💔'));
-    return option = false;
-});
+const airing = (msg) => {
+    const data = msg.text !== undefined ? msg.text : '';
+    (0, dataByName_1.getDataByAnimeName)(data)
+        .then((res) => {
+        const data = res.data.data.Media;
+        if (data === null)
+            return notFoundAnime(msg);
+        const { text, img } = (0, formatResponses_1.nextAiringEpisode)(data);
+        if (img !== undefined)
+            bot_model_1.bot.sendPhoto(msg.chat.id, img);
+        return bot_model_1.bot.sendMessage(msg.chat.id, text);
+    })
+        .catch(() => bot_model_1.bot.sendMessage(msg.chat.id, 'Ocurrio un error 💔'))
+        .then(() => finalResponse(msg));
+    return option = bot_model_1.Options.initialState;
+};
 exports.default = handleResponse;

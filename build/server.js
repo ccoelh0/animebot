@@ -14,10 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
-const node_telegram_bot_api_1 = __importDefault(require("node-telegram-bot-api"));
 const responses_1 = __importDefault(require("./utils/responses"));
+const bot_model_1 = require("./models/bot.model");
 const app = (0, express_1.default)();
-const token = process.env.TELEGRAM_TOKEN;
-const bot = new node_telegram_bot_api_1.default(token !== undefined ? token : '', { polling: true });
-bot.on("message", (msg) => __awaiter(void 0, void 0, void 0, function* () { return (0, responses_1.default)(bot, msg); }));
+bot_model_1.bot.on("message", (msg) => __awaiter(void 0, void 0, void 0, function* () { return (0, responses_1.default)(msg); }));
 app.listen(process.env.PORT, () => console.log(`Bot running in port ${process.env.PORT}`));

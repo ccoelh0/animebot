@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDataByAnimeName = void 0;
-const node_fetch_1 = __importDefault(require("node-fetch"));
+const axios_1 = __importDefault(require("axios"));
 const url = 'https://graphql.anilist.co';
 const query = `
   query ($search: String) {
@@ -34,17 +34,6 @@ const query = `
   }
 `;
 const getDataByAnimeName = (animeName) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield (0, node_fetch_1.default)(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: { search: animeName }
-        })
-    });
-    return yield data.json();
+    return axios_1.default.post(url, { query: query, variables: { search: animeName } });
 });
 exports.getDataByAnimeName = getDataByAnimeName;
